@@ -1,0 +1,94 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.sidebar.expanded {
+  width: 220px;
+}
+
+.sidebar .top {
+  padding: 20px 12px;
+}
+
+.menu {
+  width: 28px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.new-chat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.new-chat img {
+  width: 24px;
+}
+
+.new-chat p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.recent {
+  margin-top: 20px;
+}
+
+.recent-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.recent-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.recent-entry img {
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.recent-entry p {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bottom {
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bottom-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.bottom-item img {
+  width: 20px;
+}
