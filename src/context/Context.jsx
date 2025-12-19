@@ -26,6 +26,7 @@ const ContextProvider = ({ children }) => {
 
     try {
       const response = await runChat(prompt);
+
       setResultData(response);
       setRecentPrompt(prompt);
       setPreviousPrompt((prev) => [...prev, prompt]);
