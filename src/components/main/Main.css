@@ -59,7 +59,7 @@
 }
 
 .card {
-  background: #fff;
+  background: #d1cfcf;
   padding: 16px;
   border-radius: 12px;
   min-height: 140px;
@@ -172,7 +172,7 @@
 .search-box {
   width: 100%;
   max-width: 900px;
-  background: #f0f4f9;
+  background: #d1cfcf;
   display: flex;
   align-items: center;
   padding: 10px 16px;
