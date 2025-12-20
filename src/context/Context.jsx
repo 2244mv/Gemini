@@ -6,18 +6,20 @@ export const Context = createContext();
 const ContextProvider = ({ children }) => {
   const [input, setInput] = useState("");
   const [recentPrompt, setRecentPrompt] = useState("");
-  const [previousPrompt, setPreviousPrompt] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
 
+  // Start new chat
   const newChat = () => {
-    setLoading(false);
+    setInput("");
     setShowResult(false);
-    setInput(""); // clear input when starting new chat
+    setLoading(false);
     setResultData("");
+    setRecentPrompt("");
   };
 
+  // Send prompt to Gemini API
   const onSent = async (prompt) => {
     if (!prompt.trim()) return;
 
@@ -26,32 +28,33 @@ const ContextProvider = ({ children }) => {
 
     try {
       const response = await runChat(prompt);
-
       setResultData(response);
       setRecentPrompt(prompt);
-      setPreviousPrompt((prev) => [...prev, prompt]);
     } catch (error) {
-      setResultData("⚠️ Something went wrong. Please try again.");
       console.error(error);
+      setResultData("⚠️ Something went wrong. Please try again.");
     } finally {
       setLoading(false);
-      // Do NOT clear input here — icon visibility depends on input
+      setInput(""); // clear input after sending
     }
   };
 
-  const contextValue = {
-    input,
-    setInput,
-    recentPrompt,
-    previousPrompt,
-    showResult,
-    loading,
-    resultData,
-    onSent,
-    newChat,
-  };
-
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+  return (
+    <Context.Provider
+      value={{
+        input,
+        setInput,
+        recentPrompt,
+        showResult,
+        loading,
+        resultData,
+        onSent,
+        newChat,
+      }}
+    >
+      {children}
+    </Context.Provider>
+  );
 };
 
 export default ContextProvider;
