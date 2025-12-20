@@ -1,17 +1,33 @@
-import { GoogleGenAI } from "@google/genai";
+import GeminiClient from "../library/geminiClient.js";
 
-const ai = new GoogleGenAI({
-  apiKey: "AIzaSyBYaYmxUUstikZg4zzARg5KoLR8opFi8t8",
-});
+async function runChat(prompt, modelName = "gemini-2.5-flash") {
+  if (
+    !prompt ||
+    (typeof prompt === "string" ? prompt.trim() === "" : prompt.length === 0)
+  ) {
+    return "Error: Prompt is empty.";
+  }
 
-const runChat = async (prompt) => {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: prompt,
-  });
+  try {
+    const ai = GeminiClient.getInstance();
 
-  return response.candidates[0].content.parts[0].text;
-};
+    const response = await ai.models.generateContent({
+      model: modelName,
+      contents: prompt, // can be string or array for chat history
+    });
+    return response.candidates[0].content.parts[0].text;
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+
+    if (
+      error.message.includes("API key") ||
+      error.message.includes("browser")
+    ) {
+      return "Error: Cannot use Gemini API key directly in browser. Use a backend proxy in production.";
+    }
+
+    return `Error: ${error.message || "Something went wrong."}`;
+  }
+}
 
 export default runChat;
-
