@@ -1,14 +1,20 @@
-import React from 'react'
-import Main from './components/main/Main'
-import Sidebar from './components/sidebar/Sidebar'
+import React from "react";
+import Sidebar from "./components/sidebar/Sidebar";
+import Main from "./components/main/Main";
+import ContextProvider from "./context/Context";
+import "./index.css";
 
-const App = () => {
+function App() {
   return (
-    <> 
-    <Sidebar />  
-    <Main />
-    </>
-  )
+    <ContextProvider>
+      <div className="app-container">
+        {" "}
+        {/* Dark mode toggled on this */}
+        <Sidebar />
+        <Main />
+      </div>
+    </ContextProvider>
+  );
 }
 
-export default App
+export default App;

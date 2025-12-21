@@ -1,23 +1,54 @@
 /* ================= GLOBAL RESET ================= */
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   font-family: "Segoe UI", Roboto, sans-serif;
-  background: #e9e9e9;
-  color: #222;
+  background: var(--bg-color);
+  color: var(--text-color);
   overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* ================= MAIN WRAPPER ================= */
-.main {
-  width: 100%;
-  height: 100vh;
+/* ================= CSS VARIABLES ================= */
+:root {
+  --bg-color: #e9e9e9;
+  --text-color: #222;
+  --card-bg: #d1cfcf;
+  --input-bg: #d1cfcf;
+  --bottom-bg: #e9e9e9;
+  --formatted-text: #333;
+  --formatted-h2: #222;
+  --formatted-h3: #555;
+  --border-color: #ddd;
+  --hover-bg: rgba(0, 0, 0, 0.06);
+  --hover-bg-strong: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --bg-color: #121212;
+  --text-color: #eee;
+  --card-bg: #1f1f1f;
+  --input-bg: #1f1f1f;
+  --bottom-bg: #181818;
+  --formatted-text: #ddd;
+  --formatted-h2: #fff;
+  --formatted-h3: #ccc;
+  --border-color: #333;
+  --hover-bg: rgba(255, 255, 255, 0.08);
+  --hover-bg-strong: rgba(255, 255, 255, 0.14);
+}
+
+/* ================= APP CONTAINER ================= */
+.app-container {
   display: flex;
-  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  transition: background 0.3s, color 0.3s;
 }

@@ -1,81 +1,62 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 
 function Main() {
-  const { input, setInput, recentPrompt, showResult, loading, resultData, onSent } =
-    useContext(Context);
+  const {
+    input,
+    setInput,
+    recentPrompt,
+    showResult,
+    loading,
+    resultData,
+    onSent,
+  } = useContext(Context);
+
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const root = document.querySelector(".app-container");
+    if (darkMode) root.classList.add("dark");
+    else root.classList.remove("dark");
+  }, [darkMode]);
 
   const handleSend = () => {
     if (input.trim()) onSent(input);
   };
 
-  // ------------------- Format Response with Nested Bullets -------------------
   const formatResponse = (text) => {
     if (!text) return [];
-
-    const lines = text.split("\n");
-    const formatted = [];
-    const listStack = []; // Track nested levels
-
-    for (let line of lines) {
-      line = line.trim();
-      if (line === "") continue;
-
-      // ---------------- Headings ----------------
-      if (line.startsWith("### ")) {
-        formatted.push(<h2 key={formatted.length}>{line.replace("### ", "")}</h2>);
-        continue;
-      } else if (line.startsWith("## ")) {
-        formatted.push(<h3 key={formatted.length}>{line.replace("## ", "")}</h3>);
-        continue;
-      } else if (line.startsWith("** ")) {
-        formatted.push(<b key={formatted.length}>{line.replace("**", "")}</b>);
-        continue;
-      }
-      
-      // ---------------- Nested Bullets ----------------
-      const match = line.match(/^(-+)\s+(.*)/);
-      if (match) {
-        const level = match[1].length; // Number of "-" determines level
-        const content = match[2];
-
-        // Close lists if current level < stack length
-        while (listStack.length > level) {
-          listStack.pop();
-        }
-
-        // Open new lists if current level > stack length
-        while (listStack.length < level) {
-          const ul = <ul key={formatted.length + listStack.length} style={{ paddingLeft: `${20 * listStack.length}px` }}></ul>;
-          if (listStack.length === 0) formatted.push(ul);
-          listStack.push(ul);
-        }
-
-        // Add list item
-        formatted.push(<li key={formatted.length}>{content}</li>);
-        continue;
-      }
-
-      // ---------------- Paragraph ----------------
-      // Close any open list stack
-      listStack.length = 0;
-      formatted.push(<p key={formatted.length}>{line}</p>);
-    }
-
-    return formatted;
+    return text.split("\n").map((line, idx) => <p key={idx}>{line}</p>);
   };
+
+  // Toggle theme
+  const toggleTheme = () => setDarkMode((prev) => !prev);
 
   return (
     <div className="main">
-      {/* NAVBAR */}
       <div className="nav">
         <p>Gemini</p>
-        <img src={assets.user_icon} alt="User" />
+
+        <div className="profile-container">
+          <img src={assets.user_icon} alt="User" />
+
+          <div className="theme-toggle-container">
+            <span
+              className="theme-toggle"
+              title={darkMode ? "Light Mode" : "Dark Mode"}
+              onClick={toggleTheme}
+            >
+              {darkMode ? "🌞" : "🌙"}
+            </span>
+            <span className="theme-label" onClick={toggleTheme}>
+              {darkMode ? "Dark" : "Light"}
+            </span>
+          </div>
+        </div>
       </div>
 
-      {/* MAIN CONTENT */}
       <div className="main-container">
         {!showResult ? (
           <>
@@ -123,7 +104,6 @@ function Main() {
         )}
       </div>
 
-      {/* BOTTOM INPUT BAR */}
       <div className="main-bottom">
         <div className="search-box">
           <input
@@ -137,7 +117,13 @@ function Main() {
             <img src={assets.gallery_icon} alt="Gallery" />
             <img src={assets.mic_icon} alt="Mic" />
             {input?.trim().length > 0 && (
-              <img src={assets.send_icon} alt="Send" onClick={handleSend} />
+              <img
+                src={assets.send_icon}
+                alt="Send"
+                onClick={handleSend}
+                className="send-icon"
+                data-show="true"
+              />
             )}
           </div>
         </div>
